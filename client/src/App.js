@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "@material-ui/core";
 
 import taskService from "./services/taskService";
+import TaskList from "./components/TaskList/TaskList";
 
 function App() {
   const [tasks, setTasks] = useState(null);
@@ -32,9 +34,12 @@ function App() {
         <h1>TaskManager</h1>
       </header>
       <div>
+        <Button variant="contained" color="primary">
+          Clicky
+        </Button>
         <ul>
           {tasks && tasks.length > 0 ? (
-            tasks.map(task => renderTasks(task))
+            <TaskList tasks={tasks} />
           ) : (
             <p>No tasks found. Set a Goal!</p>
           )}

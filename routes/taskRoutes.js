@@ -27,7 +27,7 @@ module.exports = app => {
     });
   });
 
-  app.delete("/api/tasks/:id", async (req, res) => {
+  app.delete("/api/task/:id", async (req, res) => {
     const { id } = req.params;
 
     let task = await Task.findByIdAndDelete(id);
