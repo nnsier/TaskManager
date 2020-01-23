@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const taskSchema = new Schema({
+// !! TODO Add new values here once
+// !! we realize what the shape should be.
+
+const TaskSchema = new Schema({
   title: { type: String, required: [true, "can't be blank"] },
   description: { type: String, required: [true, "can't be blank"] },
-  children: [this]
+  children: { type: [this] }
 });
 
-mongoose.model("tasks", taskSchema);
+//  Make note, the children array will not happen
+//  if there is nothing in it.
+//  Don't make a function that explicitly depends on it existing.
+
+mongoose.model("tasks", TaskSchema);

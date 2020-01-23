@@ -1,52 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import taskService from "./services/taskService";
-import TaskList from "./components/TaskList/TaskList";
+import AuthDataProvider from "./components/Auth/Auth";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import Home from "./containers/Home/Home";
+import LoginForm from "./components/LoginForm/LoginForm";
 
-function App() {
-  const [tasks, setTasks] = useState(null);
-
-  useEffect(() => {
-    if (!tasks) {
-      getTasks();
-    }
-  });
-
-  const getTasks = async () => {
-    let res = await taskService.getAll();
-    console.log(res);
-    setTasks(res);
-    console.log(res);
-  };
-
-  const renderTasks = task => {
-    return (
-      <li key={task._id}>
-        <h3>{task.title}</h3>
-        <p>{task.description}</p>
-      </li>
-    );
-  };
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>TaskManager</h1>
-      </header>
-      <div>
-        <Button variant="contained" color="primary">
-          Clicky
-        </Button>
-        <ul>
-          {tasks && tasks.length > 0 ? (
-            <TaskList tasks={tasks} />
-          ) : (
-            <p>No tasks found. Set a Goal!</p>
-          )}
-        </ul>
-      </div>
-    </div>
+    <Router>
+      <AuthDataProvider>
+        <Switch>
+          <Route path="/login" component={LoginForm}></Route>
+          <Route exact path="/" component={Home}></Route>
+        </Switch>
+      </AuthDataProvider>
+    </Router>
   );
 }
-
-export default App;

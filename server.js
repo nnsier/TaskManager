@@ -1,7 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 const path = require("path");
+
+const users = require("./routes/api/userRoutes");
 
 const app = express();
 
@@ -16,7 +19,12 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 
-require("./routes/taskRoutes")(app);
+app.use(passport.initialize());
+
+require("./config/passport")(passport);
+
+app.use("/api/users", users);
+require("./routes/api/taskRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
