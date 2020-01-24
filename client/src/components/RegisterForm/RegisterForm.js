@@ -1,5 +1,5 @@
-import React from "react";
-import Avatar from "@material-ui/core/Avatar";
+import React, { useState } from "react";
+
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -44,30 +44,45 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const classes = useStyles();
 
   const [email, setEmail] = useInput("");
+  const [name, setName] = useInput("");
   const [password, setPassword] = useInput("");
+  const [password2, setPassword2] = useInput("");
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    alert(`Sending ${email} to ${password}`);
+    alert(`User Created!
+      Name: ${name}
+      Email: ${email}`);
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <LockOutlinedIcon />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                name="name"
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                autoFocus
+                onChange={setName}
+                value={name}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -77,8 +92,8 @@ export default function LoginForm() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={email}
                 onChange={setEmail}
+                value={email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -90,9 +105,21 @@ export default function LoginForm() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-                value={password}
                 onChange={setPassword}
+                value={password}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password2"
+                label="Password"
+                type="password"
+                id="password2"
+                onChange={setPassword2}
+                value={password2}
               />
             </Grid>
           </Grid>
