@@ -55,9 +55,19 @@ export default function RegisterForm() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    alert(`User Created!
-      Name: ${name}
-      Email: ${email}`);
+    if (password === password2) {
+      const user = { name, email, password, password2 };
+
+      fetch("/api/users/register", {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      }).then(response => response.json());
+    } else {
+      alert("Bad password bro");
+    }
   };
 
   return (
@@ -70,7 +80,7 @@ export default function RegisterForm() {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 name="name"
                 variant="outlined"
