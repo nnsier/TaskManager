@@ -1,12 +1,31 @@
-const user = (sequelize, DataTypes) => {
+const bcrypt = require("bcrypt");
+
+const user = function(sequelize, DataTypes) {
   const User = sequelize.define("User", {
     email: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     }
+  });
+  User.isValidPassword = async function(password, email) {
+    const user = await User.findOne({ where: { email: email } });
+    return await bcrypt.compare(password, user.password);
+  };
+  User.addHook("beforeCreate", async user => {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
   });
 
   User.associate = models => {

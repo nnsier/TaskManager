@@ -2,7 +2,7 @@ const { models } = require("../models");
 
 const runSeeds = async () => {
   await models.User.create({
-    username: "Leif",
+    email: "Leif@leif.com",
     password: "good pass"
   });
   await models.Task.create({

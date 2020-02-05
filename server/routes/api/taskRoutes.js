@@ -9,7 +9,7 @@ const { Task } = models;
 
 //only check if you can delete those based on your userId. You'll have to prove that
 
-//protext user's data of course.
+//protect user's data of course.
 
 module.exports = app => {
   app.get("/api/task", async (req, res) => {
