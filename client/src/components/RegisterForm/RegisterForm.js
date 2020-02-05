@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,7 +14,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
+import { store } from "../../store";
 import { useInput } from "../../hooks/form";
+import { registerUser } from "../../actions/actions";
 
 function Copyright() {
   return (
@@ -47,10 +50,15 @@ const useStyles = makeStyles(theme => ({
 export default function RegisterForm() {
   const classes = useStyles();
 
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+  let history = useHistory();
+
   const [email, setEmail] = useInput("");
   const [name, setName] = useInput("");
   const [password, setPassword] = useInput("");
   const [password2, setPassword2] = useInput("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -58,15 +66,7 @@ export default function RegisterForm() {
     if (password === password2) {
       const user = { name, email, password, password2 };
 
-      fetch("/api/users/register", {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(user)
-      }).then(response => response.json());
-    } else {
-      alert("Bad password bro");
+      registerUser(user, history);
     }
   };
 

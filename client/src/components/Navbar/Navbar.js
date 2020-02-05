@@ -35,7 +35,6 @@ export default function Navbar() {
         <Typography variant="h6" className={classes.title}>
           Task Manager
         </Typography>
-        <Button color="inherit">Login</Button>
       </Toolbar>
     </AppBar>
   );

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +13,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
+import { store } from "../../store";
 import { useInput } from "../../hooks/form";
+import { loginUser } from "../../actions/actions";
 
 function Copyright() {
   return (
@@ -47,21 +51,21 @@ export default function LoginForm() {
 
   const [email, setEmail] = useInput("");
   const [password, setPassword] = useInput("");
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = async event => {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+
+  let history = useHistory();
+
+  const handleSubmit = event => {
     event.preventDefault();
 
     const user = { email, password };
 
-    alert(`Sending ${email} to ${password}`);
+    console.log(user);
 
-    fetch("/api/users/login", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    }).then(response => response.json());
+    loginUser(user);
   };
 
   return (

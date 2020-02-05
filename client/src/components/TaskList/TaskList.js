@@ -11,7 +11,7 @@ const TaskList = ({ tasks }) => {
           <Task title={task.title} description={task.description} />
           {/* Base Case */}
 
-          {task.children && <TaskList tasks={task.children} />}
+          {task.tasks && <TaskList tasks={task.tasks} />}
         </ul>
       ))}
     </div>
