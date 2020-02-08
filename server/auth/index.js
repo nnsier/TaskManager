@@ -17,6 +17,21 @@ exports.login = (req, res, next) => {
   })(req, res);
 };
 
+exports.verify = req => {
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    console.log(token);
+    var decoded = jwt.verify(token, config.jwt.secret);
+    console.log(decoded);
+    return decoded;
+  } catch (err) {
+    return err;
+  }
+};
+
 exports.jwtAuth = (req, res, next) => {
   passport.authenticate("jwt", { session: false }, (err, user) => {
     if (err) return next(err);

@@ -1,10 +1,15 @@
-const { users } = require("./controllers");
+const { users, tasks } = require("./controllers");
 
 const { jwtAuth } = require("./auth");
 const router = require("express").Router();
 
 router.post("/login", users.validate(), users.login);
 router.post("/register", users.validate("register"), users.register);
+router.post("/task", tasks.createTask);
+router.get("/task", tasks.loadTasks);
+router.get("/secret", jwtAuth, (req, res) => {
+  res.send("Secret");
+});
 
 module.exports = app => {
   app.use("/api", router);

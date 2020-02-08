@@ -26,7 +26,7 @@ exports.register = async (req, res, next) => {
     const token = createAuthToken(user.toJSON());
     res.status(201).json({ token });
   } catch (err) {
-    next(err);
+    res.status(401).json({ message: "Must be a unique email" });
   }
 };
 
@@ -43,6 +43,7 @@ exports.validate = () => {
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
       .withMessage("must be a valid email"),
+
     body("username")
       .exists()
       .withMessage("is required")

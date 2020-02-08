@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 3001;
 
-db.sync({ force: true })
+db.sync({ force: false })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`You're listening to your favorite station. Enjoy ${PORT}`);
